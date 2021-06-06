@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+  
+  <title>Tinia Demo</title>
+  <style>
+			#load-spinner {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				background-color: #1e1e1e;
+			}
+
+			.lds-grid {
+				display: inline-block;
+				position: relative;
+				width: 80px;
+				height: 80px;
+			}
+
+			.lds-grid div {
+				position: absolute;
+				width: 16px;
+				height: 16px;
+				border-radius: 50%;
+				background: #fff;
+				animation: lds-grid 1.2s linear infinite;
+			}
+
+			.lds-grid div:nth-child(1) {
+				top: 8px;
+				left: 8px;
+				animation-delay: 0s;
+			}
+
+			.lds-grid div:nth-child(2) {
+				top: 8px;
+				left: 32px;
+				animation-delay: -0.4s;
+			}
+
+			.lds-grid div:nth-child(3) {
+				top: 8px;
+				left: 56px;
+				animation-delay: -0.8s;
+			}
+
+			.lds-grid div:nth-child(4) {
+				top: 32px;
+				left: 8px;
+				animation-delay: -0.4s;
+			}
+
+			.lds-grid div:nth-child(5) {
+				top: 32px;
+				left: 32px;
+				animation-delay: -0.8s;
+			}
+
+			.lds-grid div:nth-child(6) {
+				top: 32px;
+				left: 56px;
+				animation-delay: -1.2s;
+			}
+
+			.lds-grid div:nth-child(7) {
+				top: 56px;
+				left: 8px;
+				animation-delay: -0.8s;
+			}
+
+			.lds-grid div:nth-child(8) {
+				top: 56px;
+				left: 32px;
+				animation-delay: -1.2s;
+			}
+
+			.lds-grid div:nth-child(9) {
+				top: 56px;
+				left: 56px;
+				animation-delay: -1.6s;
+			}
+
+			@keyframes lds-grid {
+				0%,
+				100% {
+					opacity: 1;
+				}
+
+				50% {
+					opacity: 0.5;
+				}
+			}
+		</style>
+    <!-- Disable pinch zooming -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+    />
+
+    <!-- Workbench Configuration -->
+		<meta id="vscode-workbench-web-configuration" data-settings="" />
+    <!-- VS Code Extensions Configuration -->
+    <meta id="vscode-workbench-builtin-extensions" data-settings="[]" />
+    <!-- Workbench Icon/Manifest/CSS -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="preload" href="/static/vscode/vs/workbench/workbench.web.api.css" as="style">
+   
+    <link rel="manifest" href="/manifest.json" />
+    <!-- Prefetch to avoid waterfall -->
+    <link rel="prefetch" href="./lib/semver-umd/lib/semver-umd.js" />
+    <!-- Built in extension -->
+    <script src="./static/extensions.js"></script>
+    <!-- MemFS Extension -->
+    <script src="memfs.js"></script>
+  </head>
+
+  <body aria-label="">
+		<noscript title="No JavaScript Support">
+			<h1>You need to enable JavaScript to run this app.</h1>
+		</noscript>
+		<div id="load-spinner" aria-label="loading">
+			<div class="lds-grid">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+	</body>
+  <script>
+    let baseUri = `${window.location.origin}`;
+    self.require = {
+      baseUrl: `${baseUri}/static/vscode/`,
+      paths: {
+        "vscode-textmate": `${baseUri}/lib/vscode-textmate/release/main`,
+        "vscode-oniguruma": `${baseUri}/lib/vscode-oniguruma/release/main`,
+        "semver-umd": `${baseUri}/lib/semver-umd/lib/semver-umd.js`,
+      },
+			recordStats: true,
+			trustedTypesPolicy: window.trustedTypes?.createPolicy('amdLoader', {
+				createScriptURL(value) {
+					if (value.startsWith(window.location.origin)) {
+						return value;
+					}
+					throw new Error(`Invalid script url: ${value}`);
+				},
+			})
+		};
+  </script>
+  <script src="/static/vscode/vs/loader.js"></script>
+  <script src="/static/vscode/vs/workbench/workbench.web.api.nls.js"></script>
+  <script src="/static/vscode/vs/workbench/workbench.web.api.js"></script>
+  <script>
+	  	fetch('/product.json')
+			.then((response) => response.json())
+			.then((productJson) => {
+    			document
+					.getElementById('vscode-workbench-web-configuration')
+					.setAttribute(
+						'data-settings',
+						JSON.stringify({
+							...productJson,
+							staticExtensions: [],
+							enableSyncByDefault: false,
+							webWorkerExtensionHostIframeSrc:
+								'/static/vscode/vs/workbench/services/extensions/worker/httpWebWorkerExtensionHostIframe.html',
+						})
+					);
+					const extElement = document.getElementById(
+					"vscode-workbench-builtin-extensions"
+					).setAttribute(
+						'data-settings', 
+						JSON.stringify([
+						...memfs,
+						...extensions,
+						]));
+					require(['vs/code/browser/workbench/workbench'], function () {});
+				})
+  </script>
+</html>
