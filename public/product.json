@@ -1,0 +1,12 @@
+{
+	"productConfiguration": {
+		"nameShort": "Tinia Studio",
+		"nameLong": "Tinia Studio",
+		"applicationName": "tinia-studio",
+		"dataFolderName": ".tinia-studio",
+		"version": "1.56.2"
+	},
+	"folderUri": {
+		"scheme": "memfs", "authority": "", "path": "/"
+	}
+}

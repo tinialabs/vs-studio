@@ -1,0 +1,7 @@
+{
+    "name": "Studio by Tinia Labs",
+    "short_name": "Tinia Studo",
+    "start_url": "/",
+    "lang": "en-US",
+    "display": "standalone"
+  }
