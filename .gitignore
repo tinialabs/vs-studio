@@ -107,4 +107,4 @@ vscode
 dist
 public/lib
 public/static
-# public/memfs.js
+public/memfs.js
