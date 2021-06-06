@@ -9,9 +9,11 @@ yarn build
 yarn serve
 ```
 
+See live demo at [https://vs.tinia.org](https:/vs.tinia.org) hosted on gh-pages from this repository.
+
 ## Dependencies
 
-- [tinialabs/vscode-web](https://github.com/tinialabs/vscodeweb) The prebuilt web version of Visual Studio Code
+- [tinialabs/vscode-web](https://github.com/tinialabs/vscode-web) The prebuilt web version of Visual Studio Code
 
 ## License
 
