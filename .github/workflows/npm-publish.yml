@@ -3,6 +3,7 @@
 name: Publish Github Pages
 
 on:
+  workflow_dispatch:
   release:
     types: [created]
 
@@ -10,6 +11,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+      - name: install
+        run: yarn
+      - name: build
+        run: yarn build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
