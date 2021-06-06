@@ -9,7 +9,7 @@ yarn build
 yarn serve
 ```
 
-See live demo at [https://vs.tinia.org](https:/vs.tinia.org) hosted on gh-pages from this repository.
+See live demo at [https://vs.tinia.org](https://vs.tinia.org) hosted on gh-pages from this repository.
 
 ## Dependencies
 
