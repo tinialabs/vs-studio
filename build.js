@@ -21,6 +21,7 @@ if(fs.existsSync('./public/static/extensions/vscode-fs-memfs')){
 }
 child_process.execSync('git clone https://github.com/microsoft/vscode-web-playground.git  public/static/extensions/vscode-fs-memfs', {stdio: 'inherit'});
 process.chdir('public/static/extensions/vscode-fs-memfs');
+fse.rmdirSync('.git', { recursive: true });
 
 child_process.execSync('yarn', {stdio: 'inherit'});
 child_process.execSync('yarn compile', {stdio: 'inherit'});
